@@ -1,0 +1,22 @@
+version: '2'
+services:
+  blog_backend:
+    build:
+      context: .
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8003:8000" #host:container
+    volumes:
+      - .:/cw
+    depends_on:
+      - blog_db
+  blog_db:
+    image: "postgres:14"
+    environment:
+      POSTGRES_DB: 'blog_data'
+      POSTGRES_USER: 'blog_data_user'
+      POSTGRES_PASSWORD: '1234'
+    volumes:
+      - 'blogging_data:/var/lib/postgresql/data'
+volumes:
+  blogging_data:
